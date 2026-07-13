@@ -118,7 +118,7 @@ const Admissions = () => {
         {/* CTA */}
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-6 text-foreground">Ready to Apply?</h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">Start your application today or schedule a visit to learn more about Elstar Mixed Educational Centre.</p>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">Start your application today or schedule a visit to learn more about Excellence Academy.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="default" asChild>
               <Link to="/admissions/apply">Start Application</Link>
