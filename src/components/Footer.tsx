@@ -8,8 +8,14 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <GraduationCap className="h-6 w-6" />
-              <span className="font-bold text-lg">Elstar mixed Educational Centre</span>
+              <img
+                src={logoAsset.url}
+                alt="Excellence Academy logo"
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded object-contain bg-primary-foreground/10 p-0.5"
+              />
+              <span className="font-bold text-lg">Excellence Academy</span>
             </div>
             <p className="text-sm text-primary-foreground/80">A school committed to academic excellence, character development, and holistic education.</p>
           </div>
