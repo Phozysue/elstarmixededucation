@@ -143,7 +143,7 @@ const About = () => {
           <h2 className="text-3xl font-bold mb-8 text-foreground text-center">Our History</h2>
           <div className="max-w-3xl mx-auto space-y-6 text-muted-foreground">
             <p>
-              Elstar Mixed Education Centre was founded in 2018 with a vision to provide quality education that nurtures not just academic excellence, but also strong character, leadership skills, and a sense of social responsibility.
+              Excellence Academy was founded with a vision to provide quality education that nurtures not just academic excellence, but also strong character, leadership skills, and a sense of social responsibility.
             </p>
             <p>
               Over the years, we have expanded our facilities to include modern science laboratories, computer labs, a well-stocked library, sports facilities, and art studios. Our curriculum has evolved to incorporate the latest educational research and technology while maintaining a strong foundation in core academic subjects.
