@@ -476,6 +476,7 @@ export type Database = {
           exam_id: string
           grade: string | null
           id: string
+          locked: boolean
           marks_obtained: number
           max_marks: number
           remarks: string | null
@@ -487,6 +488,7 @@ export type Database = {
           exam_id: string
           grade?: string | null
           id?: string
+          locked?: boolean
           marks_obtained: number
           max_marks: number
           remarks?: string | null
@@ -498,6 +500,7 @@ export type Database = {
           exam_id?: string
           grade?: string | null
           id?: string
+          locked?: boolean
           marks_obtained?: number
           max_marks?: number
           remarks?: string | null
@@ -531,33 +534,45 @@ export type Database = {
       exams: {
         Row: {
           academic_year: string
+          approved_at: string | null
+          approved_by: string | null
           class_id: string
           created_at: string | null
           end_date: string
           exam_type: string
           id: string
           name: string
+          published_at: string | null
           start_date: string
+          status: Database["public"]["Enums"]["exam_status"]
         }
         Insert: {
           academic_year: string
+          approved_at?: string | null
+          approved_by?: string | null
           class_id: string
           created_at?: string | null
           end_date: string
           exam_type: string
           id?: string
           name: string
+          published_at?: string | null
           start_date: string
+          status?: Database["public"]["Enums"]["exam_status"]
         }
         Update: {
           academic_year?: string
+          approved_at?: string | null
+          approved_by?: string | null
           class_id?: string
           created_at?: string | null
           end_date?: string
           exam_type?: string
           id?: string
           name?: string
+          published_at?: string | null
           start_date?: string
+          status?: Database["public"]["Enums"]["exam_status"]
         }
         Relationships: [
           {
@@ -1248,6 +1263,7 @@ export type Database = {
       }
     }
     Enums: {
+      exam_status: "draft" | "submitted" | "approved" | "published"
       gender: "male" | "female" | "other"
       user_role:
         | "admin"
@@ -1384,6 +1400,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      exam_status: ["draft", "submitted", "approved", "published"],
       gender: ["male", "female", "other"],
       user_role: [
         "admin",
