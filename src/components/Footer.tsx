@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { GraduationCap, Mail, Phone, MapPin, Facebook, Twitter, Instagram } from "lucide-react";
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram } from "lucide-react";
+import logoAsset from "@/assets/excellence-logo.png.asset.json";
 const Footer = () => {
   return <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
@@ -7,8 +8,14 @@ const Footer = () => {
           {/* About Section */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <GraduationCap className="h-6 w-6" />
-              <span className="font-bold text-lg">Elstar mixed Educational Centre</span>
+              <img
+                src={logoAsset.url}
+                alt="Excellence Academy logo"
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded object-contain bg-primary-foreground/10 p-0.5"
+              />
+              <span className="font-bold text-lg">Excellence Academy</span>
             </div>
             <p className="text-sm text-primary-foreground/80">A school committed to academic excellence, character development, and holistic education.</p>
           </div>
@@ -64,7 +71,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-2">
                 <Mail className="h-4 w-4 flex-shrink-0" />
-                <span className="text-primary-foreground/80">elstarmixed@gmail.com</span>
+                <span className="text-primary-foreground/80">info@excellenceacademy.edu</span>
               </li>
             </ul>
           </div>
