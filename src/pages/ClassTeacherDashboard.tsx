@@ -19,7 +19,7 @@ const ClassTeacherDashboard = () => {
     (async () => {
       const { data: teacher } = await supabase.from("teachers").select("id").eq("user_id", user.id).maybeSingle();
       if (teacher) {
-        const { data: cls } = await supabase.from("classes").select("id,name,stream").eq("class_teacher_id", teacher.id);
+        const { data: cls } = await supabase.from("classes").select("id,name,section").eq("class_teacher_id", teacher.id);
         setMyClasses(cls ?? []);
         if (cls?.length) {
           const ids = cls.map(c => c.id);
@@ -43,7 +43,7 @@ const ClassTeacherDashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
         <Card><CardContent className="pt-6"><div className="text-sm text-muted-foreground">Assigned Classes</div><div className="text-2xl font-bold">{myClasses.length}</div></CardContent></Card>
         <Card><CardContent className="pt-6"><div className="text-sm text-muted-foreground">Total Students</div><div className="text-2xl font-bold">{students.length}</div></CardContent></Card>
-        <Card><CardContent className="pt-6"><div className="text-sm text-muted-foreground">Classes</div><div className="text-sm">{myClasses.map(c => `${c.name}${c.stream ? " " + c.stream : ""}`).join(", ") || "—"}</div></CardContent></Card>
+        <Card><CardContent className="pt-6"><div className="text-sm text-muted-foreground">Classes</div><div className="text-sm">{myClasses.map(c => `${c.name}${c.section ? " " + c.section : ""}`).join(", ") || "—"}</div></CardContent></Card>
       </div>
 
       {myClasses.length === 0 ? (
