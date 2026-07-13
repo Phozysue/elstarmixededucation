@@ -23,7 +23,7 @@ interface UserProfile {
 interface UserRole {
   id: string;
   user_id: string;
-  role: "admin" | "teacher" | "student";
+  role: "admin" | "teacher" | "student" | "parent" | "principal" | "bursar" | "class_teacher";
 }
 
 interface ClassInfo {
