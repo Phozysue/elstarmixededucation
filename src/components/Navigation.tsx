@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, GraduationCap, LogOut, User, Shield, BookOpen } from "lucide-react";
+import { Menu, X, LogOut, User, Shield, BookOpen } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
+import logoAsset from "@/assets/excellence-logo.png.asset.json";
 import {
   DropdownMenu,
   DropdownMenuContent,
