@@ -808,6 +808,38 @@ export type Database = {
         }
         Relationships: []
       }
+      parent_students: {
+        Row: {
+          created_at: string
+          id: string
+          parent_user_id: string
+          relationship: string | null
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          parent_user_id: string
+          relationship?: string | null
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          parent_user_id?: string
+          relationship?: string | null
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parent_students_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       principal_info: {
         Row: {
           created_at: string
@@ -1213,7 +1245,14 @@ export type Database = {
     }
     Enums: {
       gender: "male" | "female" | "other"
-      user_role: "admin" | "teacher" | "student"
+      user_role:
+        | "admin"
+        | "teacher"
+        | "student"
+        | "parent"
+        | "principal"
+        | "bursar"
+        | "class_teacher"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1342,7 +1381,15 @@ export const Constants = {
   public: {
     Enums: {
       gender: ["male", "female", "other"],
-      user_role: ["admin", "teacher", "student"],
+      user_role: [
+        "admin",
+        "teacher",
+        "student",
+        "parent",
+        "principal",
+        "bursar",
+        "class_teacher",
+      ],
     },
   },
 } as const
