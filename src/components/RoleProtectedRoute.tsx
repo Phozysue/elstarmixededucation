@@ -3,14 +3,23 @@ import { useAuth } from "@/hooks/useAuth";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
+export type AppRole =
+  | "admin"
+  | "teacher"
+  | "student"
+  | "parent"
+  | "principal"
+  | "bursar"
+  | "class_teacher";
+
 interface RoleProtectedRouteProps {
   children: React.ReactNode;
-  allowedRoles: ("admin" | "teacher" | "student")[];
+  allowedRoles: AppRole[];
 }
 
 const RoleProtectedRoute = ({ children, allowedRoles }: RoleProtectedRouteProps) => {
   const { user, loading } = useAuth();
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [userRoles, setUserRoles] = useState<AppRole[]>([]);
   const [checkingRole, setCheckingRole] = useState(true);
 
   useEffect(() => {
@@ -19,24 +28,20 @@ const RoleProtectedRoute = ({ children, allowedRoles }: RoleProtectedRouteProps)
         setCheckingRole(false);
         return;
       }
-
       try {
         const { data, error } = await supabase
           .from("user_roles")
           .select("role")
-          .eq("user_id", user.id)
-          .maybeSingle();
-
+          .eq("user_id", user.id);
         if (error) throw error;
-        setUserRole(data?.role || null);
-      } catch (error) {
-        console.error("Error checking user role:", error);
-        setUserRole(null);
+        setUserRoles((data ?? []).map((r) => r.role as AppRole));
+      } catch (e) {
+        console.error("Error checking user role:", e);
+        setUserRoles([]);
       } finally {
         setCheckingRole(false);
       }
     };
-
     checkUserRole();
   }, [user]);
 
@@ -48,11 +53,9 @@ const RoleProtectedRoute = ({ children, allowedRoles }: RoleProtectedRouteProps)
     );
   }
 
-  if (!user) {
-    return <Navigate to="/auth" replace />;
-  }
+  if (!user) return <Navigate to="/auth" replace />;
 
-  if (!userRole || !allowedRoles.includes(userRole as "admin" | "teacher" | "student")) {
+  if (!userRoles.some((r) => allowedRoles.includes(r))) {
     return <Navigate to="/" replace />;
   }
 
