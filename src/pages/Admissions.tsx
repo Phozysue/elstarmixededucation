@@ -45,7 +45,7 @@ const Admissions = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6 text-foreground">Admissions</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Join our community of learners. We're excited to welcome your family to Elstar Mixed Educational Centre.</p>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Join our community of learners. We're excited to welcome your family to Excellence Academy.</p>
         </div>
 
         {/* Admission Process */}
