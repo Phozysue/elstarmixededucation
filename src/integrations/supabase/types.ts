@@ -476,6 +476,7 @@ export type Database = {
           exam_id: string
           grade: string | null
           id: string
+          locked: boolean
           marks_obtained: number
           max_marks: number
           remarks: string | null
@@ -487,6 +488,7 @@ export type Database = {
           exam_id: string
           grade?: string | null
           id?: string
+          locked?: boolean
           marks_obtained: number
           max_marks: number
           remarks?: string | null
@@ -498,6 +500,7 @@ export type Database = {
           exam_id?: string
           grade?: string | null
           id?: string
+          locked?: boolean
           marks_obtained?: number
           max_marks?: number
           remarks?: string | null
@@ -531,33 +534,45 @@ export type Database = {
       exams: {
         Row: {
           academic_year: string
+          approved_at: string | null
+          approved_by: string | null
           class_id: string
           created_at: string | null
           end_date: string
           exam_type: string
           id: string
           name: string
+          published_at: string | null
           start_date: string
+          status: Database["public"]["Enums"]["exam_status"]
         }
         Insert: {
           academic_year: string
+          approved_at?: string | null
+          approved_by?: string | null
           class_id: string
           created_at?: string | null
           end_date: string
           exam_type: string
           id?: string
           name: string
+          published_at?: string | null
           start_date: string
+          status?: Database["public"]["Enums"]["exam_status"]
         }
         Update: {
           academic_year?: string
+          approved_at?: string | null
+          approved_by?: string | null
           class_id?: string
           created_at?: string | null
           end_date?: string
           exam_type?: string
           id?: string
           name?: string
+          published_at?: string | null
           start_date?: string
+          status?: Database["public"]["Enums"]["exam_status"]
         }
         Relationships: [
           {
@@ -807,6 +822,38 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      parent_students: {
+        Row: {
+          created_at: string
+          id: string
+          parent_user_id: string
+          relationship: string | null
+          student_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          parent_user_id: string
+          relationship?: string | null
+          student_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          parent_user_id?: string
+          relationship?: string | null
+          student_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "parent_students_student_id_fkey"
+            columns: ["student_id"]
+            isOneToOne: false
+            referencedRelation: "students"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       principal_info: {
         Row: {
@@ -1206,14 +1253,26 @@ export type Database = {
         Args: { _class_id: string; _user_id: string }
         Returns: boolean
       }
+      is_parent_of: {
+        Args: { _student_id: string; _user_id: string }
+        Returns: boolean
+      }
       is_subject_teacher: {
         Args: { _class_id: string; _subject_id: string; _user_id: string }
         Returns: boolean
       }
     }
     Enums: {
+      exam_status: "draft" | "submitted" | "approved" | "published"
       gender: "male" | "female" | "other"
-      user_role: "admin" | "teacher" | "student"
+      user_role:
+        | "admin"
+        | "teacher"
+        | "student"
+        | "parent"
+        | "principal"
+        | "bursar"
+        | "class_teacher"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -1341,8 +1400,17 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      exam_status: ["draft", "submitted", "approved", "published"],
       gender: ["male", "female", "other"],
-      user_role: ["admin", "teacher", "student"],
+      user_role: [
+        "admin",
+        "teacher",
+        "student",
+        "parent",
+        "principal",
+        "bursar",
+        "class_teacher",
+      ],
     },
   },
 } as const

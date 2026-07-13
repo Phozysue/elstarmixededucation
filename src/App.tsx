@@ -19,6 +19,10 @@ import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/AdminDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
+import ParentDashboard from "./pages/ParentDashboard";
+import PrincipalDashboard from "./pages/PrincipalDashboard";
+import BursarDashboard from "./pages/BursarDashboard";
+import ClassTeacherDashboard from "./pages/ClassTeacherDashboard";
 import NotFound from "./pages/NotFound";
 import RoleProtectedRoute from "./components/RoleProtectedRoute";
 
@@ -33,9 +37,14 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Auth />} />
-            <Route path="/admin" element={<AdminDashboard />} />
-            <Route path="/teacher" element={<TeacherDashboard />} />
-            <Route path="/student" element={<StudentDashboard />} />
+            <Route path="/admin" element={<RoleProtectedRoute allowedRoles={["admin"]}><AdminDashboard /></RoleProtectedRoute>} />
+            <Route path="/teacher" element={<RoleProtectedRoute allowedRoles={["teacher","class_teacher","admin"]}><TeacherDashboard /></RoleProtectedRoute>} />
+            <Route path="/student" element={<RoleProtectedRoute allowedRoles={["student","admin"]}><StudentDashboard /></RoleProtectedRoute>} />
+            <Route path="/parent" element={<RoleProtectedRoute allowedRoles={["parent","admin"]}><ParentDashboard /></RoleProtectedRoute>} />
+            <Route path="/principal" element={<RoleProtectedRoute allowedRoles={["principal","admin"]}><PrincipalDashboard /></RoleProtectedRoute>} />
+            <Route path="/bursar" element={<RoleProtectedRoute allowedRoles={["bursar","admin"]}><BursarDashboard /></RoleProtectedRoute>} />
+            <Route path="/class-teacher" element={<RoleProtectedRoute allowedRoles={["class_teacher","admin"]}><ClassTeacherDashboard /></RoleProtectedRoute>} />
+
             <Route path="/" element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="about" element={<About />} />
@@ -44,7 +53,7 @@ const App = () => (
               <Route path="admissions/apply" element={<AdmissionsForm />} />
               <Route path="gallery" element={<Gallery />} />
               <Route path="library" element={
-                <RoleProtectedRoute allowedRoles={["admin", "teacher", "student"]}>
+                <RoleProtectedRoute allowedRoles={["admin", "teacher", "student", "parent", "principal", "bursar", "class_teacher"]}>
                   <Library />
                 </RoleProtectedRoute>
               } />

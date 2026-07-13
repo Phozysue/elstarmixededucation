@@ -43,24 +43,25 @@ const Auth = () => {
         return;
       }
 
-      // Check user role and redirect accordingly
-      const { data: roleData } = await supabase
+      // Check user role(s) and redirect accordingly
+      const uid = (await supabase.auth.getUser()).data.user?.id;
+      const { data: rolesData } = await supabase
         .from("user_roles")
         .select("role")
-        .eq("user_id", (await supabase.auth.getUser()).data.user?.id)
-        .maybeSingle();
+        .eq("user_id", uid ?? "");
 
+      const roles = (rolesData ?? []).map(r => r.role as string);
       toast.success("Welcome back!");
-      
-      if (roleData?.role === "admin") {
-        navigate("/admin");
-      } else if (roleData?.role === "teacher") {
-        navigate("/teacher");
-      } else if (roleData?.role === "student") {
-        navigate("/student");
-      } else {
-        navigate("/");
-      }
+
+      // Priority order for landing page
+      const priority = ["admin", "principal", "bursar", "class_teacher", "teacher", "parent", "student"] as const;
+      const primary = priority.find(r => roles.includes(r));
+      const routeMap: Record<string, string> = {
+        admin: "/admin", principal: "/principal", bursar: "/bursar",
+        class_teacher: "/class-teacher", teacher: "/teacher",
+        parent: "/parent", student: "/student",
+      };
+      navigate(primary ? routeMap[primary] : "/");
     } catch (error) {
       toast.error("An unexpected error occurred");
     } finally {

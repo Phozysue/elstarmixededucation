@@ -1,42 +1,67 @@
 
+# School Management Expansion Plan
 
-## Plan: Admin Student/Teacher Assignment by Name and Restrict Library Access
+Delivered in 4 phases. Each phase = one DB migration + related code. I'll ship phase 1 first, then continue through phases 2–4 without further approval unless something changes.
 
-### What will change
+## Phase 1 — Roles & Access Control (foundation)
 
-**1. Library restricted to students and teachers only (not public)**
+**DB migration**
+- Extend `user_role` enum: add `parent`, `principal`, `bursar`, `class_teacher`.
+- New `parent_students` table linking `parent_user_id` → `student_id` (many-to-many).
+- Helper functions: `is_parent_of(student_id)`, `has_any_role(roles[])`.
+- Update `enforce_single_role` trigger to allow admin + one extra (already supported).
+- Extend RLS on `students`, `exam_results`, `report_cards`, `student_fees`, `fee_payments`, `attendance`, `announcements` so:
+  - parent → only linked children
+  - principal → school-wide read
+  - bursar → fees/payments read+write, no results
+  - class_teacher → same as teacher, plus class-wide attendance/remarks
+- GRANTs on new table.
 
-Currently, the Library link appears in the navigation for everyone, and the `library_books` table has an RLS policy allowing public SELECT. Changes:
+**Code**
+- `RoleProtectedRoute` accepts new roles.
+- Auth redirect logic routes each role to its dashboard.
+- Admin `UserManagement` gains role dropdown with all 6 roles + "Link parent to student" UI.
 
-- Update the navigation to only show the "Library" link when the user has a role of `admin`, `teacher`, or `student`
-- The `RoleProtectedRoute` wrapper on the `/library` route already restricts access to these roles -- this stays as-is
-- Update the `library_books` RLS policy to restrict SELECT to authenticated users with the correct roles (remove the public "Everyone can view" policy and replace it with a role-checked one)
+## Phase 2 — Result Approval / Publish Lock
 
-**2. Admin can assign students and teachers by name**
+**DB**
+- `exams.status` enum: `draft` | `submitted` | `approved` | `published`.
+- `exam_results.locked boolean default false`.
+- RLS: students/parents see results only when `exams.status='published'`.
+- Teachers can UPDATE `exam_results` only where `locked=false`.
+- Trigger on `exams.status → published` sets `locked=true` on all results.
 
-Currently, when adding a student or teacher, the admin selects from a dropdown showing `full_name (email)`. This already shows names. However, I'll improve the experience by:
+**Code**
+- Teacher dashboard: submit-for-approval button; disable edit when locked.
+- New Principal dashboard: pending exams queue, approve → publish action.
 
-- Adding a search/filter input in the user selection dropdowns for both Students and Teachers management, so admins can quickly find users by typing a name
-- Displaying names more prominently in the selection list
+## Phase 3 — New Dashboards
 
----
+- `/parent` — profile per child, results (published only), report card viewer/PDF, attendance, fee balance & payment history, announcements.
+- `/principal` — school KPIs, best classes/students, subject & teacher analytics (recharts), attendance %, fee collection summary, pending approvals, announcements manager.
+- `/bursar` — record payments, print PDF receipt, student search, outstanding balances, daily/monthly/annual financial reports, send fee reminder (simple mark).
+- `/class-teacher` — routed automatically when a teacher is a `class_teacher_id` on any class; attendance grid, conduct remarks, class-wide announcement, report-card comment field.
 
-### Technical Details
+Each dashboard shares the existing sidebar/topbar shell for visual consistency.
 
-**Database migration:**
-- Drop the existing `Everyone can view library books` RLS policy
-- Create a new policy that only allows SELECT for users with admin, teacher, or student roles using the existing `has_role()` function
+## Phase 4 — Exports
 
-**Navigation (src/components/Navigation.tsx):**
-- Conditionally show the Library nav item only when `userRole` is `admin`, `teacher`, or `student`
+- Install `xlsx` and `jspdf` + `jspdf-autotable`.
+- Reusable helpers `src/lib/exportExcel.ts`, `src/lib/exportPdf.ts`.
+- Add "Export Excel" buttons: Admin Students list, Fees list, Results view.
+- PDF: fee receipt (Bursar), fee statement (Bursar & Student), principal school-performance report.
 
-**StudentsManagement.tsx and TeachersManagement.tsx:**
-- Add a search input above the user selection dropdown to filter profiles by name
-- This makes it easier for admins to find and assign users when there are many profiles
+## Technical notes
 
-**Files to modify:**
-- `src/components/Navigation.tsx` - hide Library link for non-authenticated/public users
-- `src/components/admin/StudentsManagement.tsx` - add name search filter for user selection
-- `src/components/admin/TeachersManagement.tsx` - add name search filter for user selection
-- Database migration - update `library_books` RLS policy
+- No changes to existing Admin/Teacher/Student flows beyond the approval lock and export buttons.
+- Parent accounts are Admin-provisioned only (existing policy — public signup stays disabled).
+- All new tables get GRANTs + RLS in the same migration.
+- Analytics use existing `recharts` dep. PDFs use jsPDF (no server rendering).
 
+## Out of scope for this pass
+
+- Timetable module (not in existing schema; can add later if you want).
+- SMS/email fee reminders (only in-app flag for now).
+- Multi-language, custom grading systems editor (existing grading logic stays).
+
+Starting with Phase 1 on your approval.

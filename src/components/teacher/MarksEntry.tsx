@@ -12,7 +12,7 @@ import { ClipboardEdit, Save } from "lucide-react";
 
 interface Assignment { class_id: string; subject_id: string; class_name: string; subject_name: string; }
 interface Student { id: string; student_id: string; full_name: string; }
-interface Exam { id: string; name: string; }
+interface Exam { id: string; name: string; status?: string; }
 
 const MarksEntry = () => {
   const { user } = useAuth();
@@ -50,8 +50,8 @@ const MarksEntry = () => {
 
   useEffect(() => {
     if (!current) { setExams([]); setExamId(""); return; }
-    supabase.from("exams").select("id, name").eq("class_id", current.class_id).order("start_date", { ascending: false })
-      .then(({ data }) => setExams(data ?? []));
+    supabase.from("exams").select("id, name, status").eq("class_id", current.class_id).order("start_date", { ascending: false })
+      .then(({ data }) => setExams((data ?? []) as Exam[]));
   }, [selectedAssignment]);
 
   useEffect(() => {
@@ -196,7 +196,22 @@ const MarksEntry = () => {
                 </TableBody>
               </Table>
             </div>
-            <Button onClick={save} disabled={saving}><Save className="h-4 w-4 mr-2" />{saving ? "Saving..." : "Save Marks"}</Button>
+            <div className="flex flex-wrap gap-2 items-center">
+              <Button onClick={save} disabled={saving || ["approved","published"].includes(exams.find(e=>e.id===examId)?.status ?? "")}>
+                <Save className="h-4 w-4 mr-2" />{saving ? "Saving..." : "Save Marks"}
+              </Button>
+              {exams.find(e=>e.id===examId)?.status === "draft" && (
+                <Button variant="outline" onClick={async () => {
+                  const { error } = await supabase.from("exams").update({ status: "submitted" }).eq("id", examId);
+                  if (error) return toast.error(error.message);
+                  toast.success("Submitted for principal approval");
+                  setExams(exams.map(e => e.id === examId ? { ...e, status: "submitted" } : e));
+                }}>Submit for approval</Button>
+              )}
+              <span className="text-sm text-muted-foreground ml-2">
+                Status: <span className="uppercase font-semibold">{exams.find(e=>e.id===examId)?.status ?? "-"}</span>
+              </span>
+            </div>
           </>
         )}
       </CardContent>
