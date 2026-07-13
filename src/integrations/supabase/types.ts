@@ -1238,6 +1238,10 @@ export type Database = {
         Args: { _class_id: string; _user_id: string }
         Returns: boolean
       }
+      is_parent_of: {
+        Args: { _student_id: string; _user_id: string }
+        Returns: boolean
+      }
       is_subject_teacher: {
         Args: { _class_id: string; _subject_id: string; _user_id: string }
         Returns: boolean
