@@ -53,10 +53,6 @@ const App = () => (
               <Route path="admissions/apply" element={<AdmissionsForm />} />
               <Route path="gallery" element={<Gallery />} />
               <Route path="library" element={
-                <RoleProtectedRoute allowedRoles={["admin", "teacher", "student"]}>
-                  <Library />
-                </RoleProtectedRoute>
-              <Route path="library" element={
                 <RoleProtectedRoute allowedRoles={["admin", "teacher", "student", "parent", "principal", "bursar", "class_teacher"]}>
                   <Library />
                 </RoleProtectedRoute>
