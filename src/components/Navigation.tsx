@@ -106,10 +106,14 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="p-2 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
-              <GraduationCap className="h-6 w-6 text-primary" />
-            </div>
-            <span className="font-bold text-lg text-foreground">Elstar mixed Educational Centre</span>
+            <img
+              src={logoAsset.url}
+              alt="Excellence Academy logo"
+              width={36}
+              height={36}
+              className="h-9 w-9 rounded-lg object-contain bg-primary/10 p-1 group-hover:bg-primary/20 transition-colors"
+            />
+            <span className="font-bold text-lg text-foreground">Excellence Academy</span>
           </Link>
 
           {/* Desktop Navigation */}
