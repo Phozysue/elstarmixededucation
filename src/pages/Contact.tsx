@@ -92,9 +92,9 @@ const Contact = () => {
   // School coordinates - Nairobi, Kenya (update these to exact location)
   const schoolLat = -1.2864;
   const schoolLng = 36.8172;
-  const schoolName = "Elstar Mixed Educational Centre";
-  const schoolAddress = "P.O.Box 54145-0100, Nairobi, Kenya";
-  
+  const schoolName = "Excellence Academy";
+  const schoolAddress = "P.O. Box 54145-0100, Nairobi, Kenya";
+
   // Google Maps embed URL with actual location
   const mapEmbedUrl = `https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8175885098765!2d${schoolLng}!3d${schoolLat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMTcnMTEuMCJTIDM2wrA0OScwMS45IkU!5e0!3m2!1sen!2ske!4v1699999999999!5m2!1sen!2ske`;
   
