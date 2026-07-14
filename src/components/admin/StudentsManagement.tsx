@@ -185,10 +185,16 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
       const validGender = genderValue && ["male", "female", "other"].includes(genderValue) 
         ? genderValue as "male" | "female" | "other" 
         : undefined;
-      
+
+      const studentIdVal = (formData.get("student_id") as string || "").trim();
+      if (!/^ADM\d+$/.test(studentIdVal)) {
+        toast.error('Admission number must start with "ADM" followed by numbers');
+        return;
+      }
+
       const data = {
         user_id: selectedUserId,
-        student_id: formData.get("student_id") as string,
+        student_id: studentIdVal,
         class_id: formData.get("class_id") as string || undefined,
         date_of_birth: formData.get("date_of_birth") as string || undefined,
         gender: validGender,
