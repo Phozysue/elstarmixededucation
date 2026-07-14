@@ -16,6 +16,7 @@ import NewsEvents from "./pages/NewsEvents";
 import Contact from "./pages/Contact";
 import Staff from "./pages/Staff";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import AdminDashboard from "./pages/AdminDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
