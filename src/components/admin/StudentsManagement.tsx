@@ -145,8 +145,13 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
   const handleSave = async (formData: FormData) => {
     try {
       const genderValue = formData.get("gender") as string;
+      const studentIdVal = (formData.get("student_id") as string || "").trim();
+      if (!/^ADM\d+$/.test(studentIdVal)) {
+        toast.error('Admission number must start with "ADM" followed by numbers');
+        return;
+      }
       const data: any = {
-        student_id: formData.get("student_id") as string,
+        student_id: studentIdVal,
         class_id: formData.get("class_id") as string || null,
         date_of_birth: formData.get("date_of_birth") as string || null,
         gender: genderValue && ["male", "female", "other"].includes(genderValue) ? genderValue : null,
@@ -180,10 +185,16 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
       const validGender = genderValue && ["male", "female", "other"].includes(genderValue) 
         ? genderValue as "male" | "female" | "other" 
         : undefined;
-      
+
+      const studentIdVal = (formData.get("student_id") as string || "").trim();
+      if (!/^ADM\d+$/.test(studentIdVal)) {
+        toast.error('Admission number must start with "ADM" followed by numbers');
+        return;
+      }
+
       const data = {
         user_id: selectedUserId,
-        student_id: formData.get("student_id") as string,
+        student_id: studentIdVal,
         class_id: formData.get("class_id") as string || undefined,
         date_of_birth: formData.get("date_of_birth") as string || undefined,
         gender: validGender,
@@ -244,7 +255,7 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
               Add Student
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md">
+          <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Add New Student</DialogTitle>
               <DialogDescription>
@@ -288,8 +299,15 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
               </div>
               <div>
                 <Label>Admission Number *</Label>
-                <Input name="student_id" placeholder="e.g., ADM2024001" required />
-                <p className="text-xs text-muted-foreground mt-1">Unique admission number for this student</p>
+                <Input
+                  name="student_id"
+                  placeholder="e.g., ADM2024001"
+                  defaultValue={`ADM${new Date().getFullYear()}${String(students.length + 1).padStart(3, "0")}`}
+                  pattern="^ADM\d+$"
+                  title="Must start with ADM followed by numbers (e.g., ADM2024001)"
+                  required
+                />
+                <p className="text-xs text-muted-foreground mt-1">Must start with "ADM" followed by numbers</p>
               </div>
               <div>
                 <Label>Class</Label>
@@ -409,8 +427,14 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
                             <form onSubmit={(e) => { e.preventDefault(); handleSave(new FormData(e.currentTarget)); }} className="space-y-4">
                               <div>
                                 <Label>Admission Number *</Label>
-                                <Input name="student_id" defaultValue={student.student_id} required />
-                                <p className="text-xs text-muted-foreground mt-1">Unique admission number for this student</p>
+                                <Input
+                                  name="student_id"
+                                  defaultValue={student.student_id}
+                                  pattern="^ADM\d+$"
+                                  title="Must start with ADM followed by numbers (e.g., ADM2024001)"
+                                  required
+                                />
+                                <p className="text-xs text-muted-foreground mt-1">Must start with "ADM" followed by numbers</p>
                               </div>
                               <div>
                                 <Label>Class</Label>
