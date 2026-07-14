@@ -244,7 +244,7 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
               Add Student
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-md">
+          <DialogContent className="max-w-md max-h-[85vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Add New Student</DialogTitle>
               <DialogDescription>
