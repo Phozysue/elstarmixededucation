@@ -139,12 +139,37 @@ serve(async (req) => {
       }
     }
 
+    // Send password reset email so the new user can set their own password
+    const origin = req.headers.get("origin") || "";
+    const redirectTo = origin ? `${origin}/reset-password` : undefined;
+    let resetEmailSent = false;
+    let resetEmailError: string | null = null;
+    try {
+      const { error: resetErr } = await serviceClient.auth.resetPasswordForEmail(
+        email.trim().toLowerCase(),
+        redirectTo ? { redirectTo } : undefined,
+      );
+      if (resetErr) {
+        resetEmailError = resetErr.message;
+        console.error("Password reset email error:", resetErr);
+      } else {
+        resetEmailSent = true;
+      }
+    } catch (e: any) {
+      resetEmailError = e?.message ?? "Unknown error sending reset email";
+      console.error("Password reset email exception:", e);
+    }
+
     return new Response(
       JSON.stringify({
         success: true,
-        message: `User created successfully`,
+        message: resetEmailSent
+          ? "User created; password reset email sent"
+          : "User created (password reset email failed to send)",
         userId,
         studentCreated,
+        resetEmailSent,
+        resetEmailError,
       }),
       {
         status: 200,
