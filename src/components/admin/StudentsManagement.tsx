@@ -145,8 +145,13 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
   const handleSave = async (formData: FormData) => {
     try {
       const genderValue = formData.get("gender") as string;
+      const studentIdVal = (formData.get("student_id") as string || "").trim();
+      if (!/^ADM\d+$/.test(studentIdVal)) {
+        toast.error('Admission number must start with "ADM" followed by numbers');
+        return;
+      }
       const data: any = {
-        student_id: formData.get("student_id") as string,
+        student_id: studentIdVal,
         class_id: formData.get("class_id") as string || null,
         date_of_birth: formData.get("date_of_birth") as string || null,
         gender: genderValue && ["male", "female", "other"].includes(genderValue) ? genderValue : null,
