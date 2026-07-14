@@ -288,8 +288,15 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
               </div>
               <div>
                 <Label>Admission Number *</Label>
-                <Input name="student_id" placeholder="e.g., ADM2024001" required />
-                <p className="text-xs text-muted-foreground mt-1">Unique admission number for this student</p>
+                <Input
+                  name="student_id"
+                  placeholder="e.g., ADM2024001"
+                  defaultValue={`ADM${new Date().getFullYear()}${String(students.length + 1).padStart(3, "0")}`}
+                  pattern="^ADM\d+$"
+                  title="Must start with ADM followed by numbers (e.g., ADM2024001)"
+                  required
+                />
+                <p className="text-xs text-muted-foreground mt-1">Must start with "ADM" followed by numbers</p>
               </div>
               <div>
                 <Label>Class</Label>
