@@ -38,6 +38,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Auth />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/admin" element={<RoleProtectedRoute allowedRoles={["admin"]}><AdminDashboard /></RoleProtectedRoute>} />
             <Route path="/teacher" element={<RoleProtectedRoute allowedRoles={["teacher","class_teacher","admin"]}><TeacherDashboard /></RoleProtectedRoute>} />
             <Route path="/student" element={<RoleProtectedRoute allowedRoles={["student","admin"]}><StudentDashboard /></RoleProtectedRoute>} />
