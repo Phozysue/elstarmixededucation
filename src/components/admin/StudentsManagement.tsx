@@ -416,8 +416,14 @@ const StudentsManagement = ({ readOnly = false }: StudentsManagementProps) => {
                             <form onSubmit={(e) => { e.preventDefault(); handleSave(new FormData(e.currentTarget)); }} className="space-y-4">
                               <div>
                                 <Label>Admission Number *</Label>
-                                <Input name="student_id" defaultValue={student.student_id} required />
-                                <p className="text-xs text-muted-foreground mt-1">Unique admission number for this student</p>
+                                <Input
+                                  name="student_id"
+                                  defaultValue={student.student_id}
+                                  pattern="^ADM\d+$"
+                                  title="Must start with ADM followed by numbers (e.g., ADM2024001)"
+                                  required
+                                />
+                                <p className="text-xs text-muted-foreground mt-1">Must start with "ADM" followed by numbers</p>
                               </div>
                               <div>
                                 <Label>Class</Label>
