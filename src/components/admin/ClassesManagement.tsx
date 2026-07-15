@@ -26,6 +26,12 @@ interface TeacherOption {
   employee_id: string | null;
 }
 
+interface TeacherRow {
+  id: string;
+  teacher_id: string | null;
+  user_id: string | null;
+}
+
 interface ClassesManagementProps { readOnly?: boolean }
 
 const UNASSIGNED = "__none__";
