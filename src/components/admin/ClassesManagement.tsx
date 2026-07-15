@@ -26,6 +26,12 @@ interface TeacherOption {
   employee_id: string | null;
 }
 
+interface TeacherRow {
+  id: string;
+  teacher_id: string | null;
+  user_id: string | null;
+}
+
 interface ClassesManagementProps { readOnly?: boolean }
 
 const UNASSIGNED = "__none__";
@@ -55,11 +61,34 @@ const ClassesManagement = ({ readOnly = false }: ClassesManagementProps) => {
   };
 
   const fetchTeachers = async () => {
-    const { data } = await supabase
+    const { data: teacherRows, error } = await supabase
       .from("teachers")
-      .select("id, full_name, employee_id")
-      .order("full_name");
-    setTeachers((data as any) || []);
+      .select("id, teacher_id, user_id");
+
+    if (error) {
+      toast.error("Failed to fetch teachers: " + error.message);
+      return;
+    }
+
+    const rows = (teacherRows as TeacherRow[]) || [];
+    const userIds = rows.map((r) => r.user_id).filter(Boolean) as string[];
+
+    let profileMap = new Map<string, string>();
+    if (userIds.length) {
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("id, full_name")
+        .in("id", userIds);
+      (profiles || []).forEach((p: any) => profileMap.set(p.id, p.full_name));
+    }
+
+    const options: TeacherOption[] = rows.map((r) => ({
+      id: r.id,
+      full_name: (r.user_id && profileMap.get(r.user_id)) || r.teacher_id || "Unnamed Teacher",
+      employee_id: r.teacher_id,
+    }));
+    options.sort((a, b) => a.full_name.localeCompare(b.full_name));
+    setTeachers(options);
   };
 
   useEffect(() => {
