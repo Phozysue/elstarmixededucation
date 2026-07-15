@@ -112,7 +112,7 @@ const HeroCarousel = () => {
     }, 1000);
   };
 
-  const heroTitle = heroData?.title || "Welcome to Excellence Academy";
+  const heroTitle = heroData?.title || "Welcome to Elster Mixed Educational Centre";
   const heroSubtitle = heroData?.subtitle || "Education Is Light";
   const heroButtonText = heroData?.button_text || "Apply Now";
   const heroButtonLink = heroData?.button_link || "/admissions";

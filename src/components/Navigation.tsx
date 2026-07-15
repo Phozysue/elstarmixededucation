@@ -108,12 +108,12 @@ const Navigation = () => {
           <Link to="/" className="flex items-center gap-2 group">
             <img
               src={logoAsset.url}
-              alt="Excellence Academy logo"
+              alt="Elster Mixed Educational Centre logo"
               width={36}
               height={36}
               className="h-9 w-9 rounded-lg object-contain bg-primary/10 p-1 group-hover:bg-primary/20 transition-colors"
             />
-            <span className="font-bold text-lg text-foreground">Excellence Academy</span>
+            <span className="font-bold text-lg text-foreground">Elster Mixed Educational Centre</span>
           </Link>
 
           {/* Desktop Navigation */}
