@@ -84,7 +84,7 @@ const NewsEvents = () => {
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6 text-foreground">News & Events</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Stay updated with the latest news and upcoming events at Elster Mixed Educational Centre.
+            Stay updated with the latest news and upcoming events at Elster Mixed Education Centre.
           </p>
         </div>
 

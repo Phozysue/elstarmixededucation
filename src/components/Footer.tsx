@@ -10,12 +10,12 @@ const Footer = () => {
             <div className="flex items-center gap-2 mb-4">
               <img
                 src={logoAsset.url}
-                alt="Elster Mixed Educational Centre logo"
+                alt="Elster Mixed Education Centre logo"
                 width={28}
                 height={28}
                 className="h-7 w-7 rounded object-contain bg-primary-foreground/10 p-0.5"
               />
-              <span className="font-bold text-lg">Elster Mixed Educational Centre</span>
+              <span className="font-bold text-lg">Elster Mixed Education Centre</span>
             </div>
             <p className="text-sm text-primary-foreground/80">A school committed to academic excellence, character development, and holistic education.</p>
           </div>
@@ -94,7 +94,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-primary-foreground/20 mt-8 pt-6 text-center text-sm text-primary-foreground/80">
-          <p>© {new Date().getFullYear()} Elster Mixed Educational Centre. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Elster Mixed Education Centre. All rights reserved.</p>
           <div className="flex justify-center gap-4 mt-2">
             <a href="/privacy" className="hover:text-primary-foreground transition-colors">
               Privacy Policy
