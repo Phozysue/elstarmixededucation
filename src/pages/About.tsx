@@ -42,7 +42,7 @@ const About = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold mb-6 text-foreground">About Elster Mixed Educational Centre</h1>
+          <h1 className="text-5xl font-bold mb-6 text-foreground">About Elster Mixed Education Centre</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Since 2000, we've been dedicated to providing exceptional education that prepares students for success in an ever-changing world.
           </p>
@@ -132,7 +132,7 @@ const About = () => {
             <div className="space-y-4 text-muted-foreground">
               <p>Dear Students, Parents, and Community Members,</p>
               <p>
-                It is with great pride and enthusiasm that I welcome you to Elster Mixed Educational Centre.
+                It is with great pride and enthusiasm that I welcome you to Elster Mixed Education Centre.
               </p>
             </div>
           )}
@@ -143,13 +143,13 @@ const About = () => {
           <h2 className="text-3xl font-bold mb-8 text-foreground text-center">Our History</h2>
           <div className="max-w-3xl mx-auto space-y-6 text-muted-foreground">
             <p>
-              Elster Mixed Educational Centre was founded with a vision to provide quality education that nurtures not just academic excellence, but also strong character, leadership skills, and a sense of social responsibility.
+              Elster Mixed Education Centre was founded with a vision to provide quality education that nurtures not just academic excellence, but also strong character, leadership skills, and a sense of social responsibility.
             </p>
             <p>
               Over the years, we have expanded our facilities to include modern science laboratories, computer labs, a well-stocked library, sports facilities, and art studios. Our curriculum has evolved to incorporate the latest educational research and technology while maintaining a strong foundation in core academic subjects.
             </p>
             <p>
-              Today, Elster Mixed Educational Centre stands as a testament to our commitment to educational excellence. Our graduates have gone on to attend prestigious universities and pursue successful careers in various fields, making us proud of their achievements and contributions to society.
+              Today, Elster Mixed Education Centre stands as a testament to our commitment to educational excellence. Our graduates have gone on to attend prestigious universities and pursue successful careers in various fields, making us proud of their achievements and contributions to society.
             </p>
           </div>
         </div>

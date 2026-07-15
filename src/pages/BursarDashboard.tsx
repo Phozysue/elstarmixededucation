@@ -71,7 +71,7 @@ const BursarDashboard = () => {
     toast.success("Payment recorded");
     const st = students.find(s => s.id === form.student_id);
     exportReceiptPdf({
-      schoolName: "Elster Mixed Educational Centre",
+      schoolName: "Elster Mixed Education Centre",
       receiptNumber: data.id.slice(0, 8).toUpperCase(),
       studentName: st?.profiles?.full_name ?? st?.student_id ?? "-",
       studentCode: st?.student_id ?? "-",
