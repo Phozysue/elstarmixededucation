@@ -147,6 +147,36 @@ const ClassesManagement = ({ readOnly = false }: ClassesManagementProps) => {
         toast.success("Class created successfully");
       }
 
+      // Grant the assigned teacher the class_teacher role so they can
+      // access the Class Teacher dashboard (attendance, report cards, etc.)
+      if (data.class_teacher_id) {
+        const teacher = teachers.find((t) => t.id === data.class_teacher_id);
+        // Look up the teacher's user_id
+        const { data: tRow } = await supabase
+          .from("teachers")
+          .select("user_id")
+          .eq("id", data.class_teacher_id)
+          .maybeSingle();
+        if (tRow?.user_id) {
+          const { data: existing } = await supabase
+            .from("user_roles")
+            .select("id")
+            .eq("user_id", tRow.user_id)
+            .eq("role", "class_teacher")
+            .maybeSingle();
+          if (!existing) {
+            const { error: roleError } = await supabase
+              .from("user_roles")
+              .insert({ user_id: tRow.user_id, role: "class_teacher" });
+            if (roleError) {
+              toast.error("Class saved, but could not grant Class Teacher role: " + roleError.message);
+            } else {
+              toast.success("Class Teacher role granted to " + (teacher?.full_name ?? "teacher"));
+            }
+          }
+        }
+      }
+
       setIsDialogOpen(false);
       setEditingClass(null);
       setSelectedTeacherId(UNASSIGNED);
@@ -266,7 +296,13 @@ const ClassesManagement = ({ readOnly = false }: ClassesManagementProps) => {
                   <TableCell>{cls.grade_level}</TableCell>
                   <TableCell>{cls.section || "N/A"}</TableCell>
                   <TableCell>{cls.academic_year}</TableCell>
-                  <TableCell>{teacherName(cls.class_teacher_id)}</TableCell>
+                  <TableCell>
+                    {cls.class_teacher_id ? (
+                      teacherName(cls.class_teacher_id)
+                    ) : (
+                      <span className="text-destructive font-medium">Unassigned</span>
+                    )}
+                  </TableCell>
                   {!readOnly && (
                     <TableCell>
                       <div className="flex gap-2">
