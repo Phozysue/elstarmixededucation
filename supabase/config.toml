@@ -1,1 +1,4 @@
 project_id = "knrvtydvdfsfarvzextw"
+
+[functions.student-login]
+verify_jwt = false
