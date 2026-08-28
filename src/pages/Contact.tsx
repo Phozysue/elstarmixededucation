@@ -185,7 +185,7 @@ const Contact = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground">
-                  General: info@excellenceacademy.edu
+                  General: Elstarmixed@gmail.com
                 </p>
               </CardContent>
             </Card>
