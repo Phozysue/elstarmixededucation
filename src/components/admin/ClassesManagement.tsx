@@ -151,9 +151,6 @@ const ClassesManagement = ({ readOnly = false }: ClassesManagementProps) => {
       // access the Class Teacher dashboard (attendance, report cards, etc.)
       if (data.class_teacher_id) {
         const teacher = teachers.find((t) => t.id === data.class_teacher_id);
-        const teacherRow = teacher
-          ? null
-          : null;
         // Look up the teacher's user_id
         const { data: tRow } = await supabase
           .from("teachers")
