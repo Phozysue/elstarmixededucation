@@ -296,7 +296,13 @@ const ClassesManagement = ({ readOnly = false }: ClassesManagementProps) => {
                   <TableCell>{cls.grade_level}</TableCell>
                   <TableCell>{cls.section || "N/A"}</TableCell>
                   <TableCell>{cls.academic_year}</TableCell>
-                  <TableCell>{teacherName(cls.class_teacher_id)}</TableCell>
+                  <TableCell>
+                    {cls.class_teacher_id ? (
+                      teacherName(cls.class_teacher_id)
+                    ) : (
+                      <span className="text-destructive font-medium">Unassigned</span>
+                    )}
+                  </TableCell>
                   {!readOnly && (
                     <TableCell>
                       <div className="flex gap-2">
