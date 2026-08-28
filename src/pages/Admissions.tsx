@@ -45,7 +45,7 @@ const Admissions = () => {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6 text-foreground">Admissions</h1>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Join our community of learners. We're excited to welcome your family to Elster Mixed Education Centre.</p>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">Join our community of learners. We're excited to welcome your family to Elstar Mixed Education Centre.</p>
         </div>
 
         {/* Admission Process */}
@@ -110,7 +110,7 @@ const Admissions = () => {
         <div className="bg-muted/30 rounded-lg p-8 md:p-12 mb-20">
           <h2 className="text-3xl font-bold mb-6 text-foreground text-center">Tuition </h2>
           <div className="max-w-3xl mx-auto text-center space-y-4 text-muted-foreground">
-            <p>Elster Mixed Education Centre is committed to making quality education accessible to all qualified students.</p>
+            <p>Elstar Mixed Education Centre is committed to making quality education accessible to all qualified students.</p>
             <p>For detailed tuition information, please contact our admissions office or schedule a meeting with our financial office</p>
           </div>
         </div>
@@ -118,7 +118,7 @@ const Admissions = () => {
         {/* CTA */}
         <div className="text-center">
           <h2 className="text-3xl font-bold mb-6 text-foreground">Ready to Apply?</h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">Start your application today or schedule a visit to learn more about Elster Mixed Education Centre.</p>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">Start your application today or schedule a visit to learn more about Elstar Mixed Education Centre.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="default" asChild>
               <Link to="/admissions/apply">Start Application</Link>

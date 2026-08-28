@@ -65,7 +65,7 @@ const Academics = () => {
       name: "Sarah Johnson",
       role: "Class of 2023",
       achievement: "Accepted to Harvard University",
-      story: "The rigorous academic program and supportive teachers at Elster Mixed Education Centre prepared me for the challenges of Ivy League admission. I'm now pursuing my dream of studying medicine.",
+      story: "The rigorous academic program and supportive teachers at Elstar Mixed Education Centre prepared me for the challenges of Ivy League admission. I'm now pursuing my dream of studying medicine.",
       avatar: "",
       program: "High School",
     },
@@ -120,7 +120,7 @@ const Academics = () => {
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6 text-foreground">Academic Programs</h1>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Elster Mixed Education Centre offers a comprehensive curriculum designed to challenge and inspire students at every level.
+            Elstar Mixed Education Centre offers a comprehensive curriculum designed to challenge and inspire students at every level.
           </p>
         </div>
 
