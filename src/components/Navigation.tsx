@@ -16,12 +16,13 @@ import {
 const Navigation = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [userRoles, setUserRoles] = useState<string[]>([]);
+  const hasRole = (...roles: string[]) => roles.some((r) => userRoles.includes(r));
 
   useEffect(() => {
     const checkUserRole = async () => {
       if (!user) {
-        setUserRole(null);
+        setUserRoles([]);
         return;
       }
 
@@ -29,14 +30,13 @@ const Navigation = () => {
         const { data, error } = await supabase
           .from("user_roles")
           .select("role")
-          .eq("user_id", user.id)
-          .maybeSingle();
+          .eq("user_id", user.id);
 
         if (error) throw error;
-        setUserRole(data?.role || null);
+        setUserRoles((data ?? []).map((r) => r.role as string));
       } catch (error) {
         console.error("Error checking user role:", error);
-        setUserRole(null);
+        setUserRoles([]);
       }
     };
 
@@ -89,7 +89,7 @@ const Navigation = () => {
   }, {
     path: "/gallery",
     label: "Gallery"
-  }, ...(userRole === "admin" || userRole === "teacher" || userRole === "student" ? [{
+  }, ...(hasRole("admin", "teacher", "class_teacher", "student", "principal") ? [{
     path: "/library",
     label: "Library",
     icon: BookOpen
@@ -121,7 +121,7 @@ const Navigation = () => {
             {navItems.map(item => <Link key={item.path} to={item.path} className={`text-sm font-medium transition-colors hover:text-primary ${isActive(item.path) ? "text-primary" : "text-muted-foreground"}`}>
                 {item.label}
               </Link>)}
-            {userRole === "admin" && (
+            {hasRole("admin") && (
               <Link
                 to="/admin"
                 className={`text-sm font-medium transition-colors hover:text-primary flex items-center gap-1 ${
@@ -132,7 +132,7 @@ const Navigation = () => {
                 Admin
               </Link>
             )}
-            {userRole === "teacher" && (
+            {hasRole("teacher", "class_teacher") && (
               <Link
                 to="/teacher"
                 className={`text-sm font-medium transition-colors hover:text-primary flex items-center gap-1 ${
@@ -143,7 +143,7 @@ const Navigation = () => {
                 Dashboard
               </Link>
             )}
-            {userRole === "student" && (
+            {hasRole("student") && (
               <Link
                 to="/student"
                 className={`text-sm font-medium transition-colors hover:text-primary flex items-center gap-1 ${
@@ -186,7 +186,7 @@ const Navigation = () => {
             {navItems.map(item => <Link key={item.path} to={item.path} className={`block py-2 text-sm font-medium transition-colors hover:text-primary ${isActive(item.path) ? "text-primary" : "text-muted-foreground"}`} onClick={() => setIsOpen(false)}>
                 {item.label}
               </Link>)}
-            {userRole === "admin" && (
+            {hasRole("admin") && (
               <Link
                 to="/admin"
                 className={`block py-2 text-sm font-medium transition-colors hover:text-primary flex items-center gap-2 ${
@@ -198,7 +198,7 @@ const Navigation = () => {
                 Admin
               </Link>
             )}
-            {userRole === "teacher" && (
+            {hasRole("teacher", "class_teacher") && (
               <Link
                 to="/teacher"
                 className={`block py-2 text-sm font-medium transition-colors hover:text-primary flex items-center gap-2 ${
@@ -210,7 +210,7 @@ const Navigation = () => {
                 Dashboard
               </Link>
             )}
-            {userRole === "student" && (
+            {hasRole("student") && (
               <Link
                 to="/student"
                 className={`block py-2 text-sm font-medium transition-colors hover:text-primary flex items-center gap-2 ${
