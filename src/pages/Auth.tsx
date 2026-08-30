@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { z } from "zod";
 
@@ -13,14 +14,20 @@ const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+const studentSchema = z.object({
+  admissionNumber: z.string().regex(/^ADM\d+$/i, "Admission number must start with ADM followed by numbers"),
+  password: z.string().min(1, "Password is required"),
+});
+
 const Auth = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
+  const [studentLogin, setStudentLogin] = useState({ admissionNumber: "", password: "" });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const validation = loginSchema.safeParse(loginData);
     if (!validation.success) {
       toast.error(validation.error.errors[0].message);
@@ -69,42 +76,123 @@ const Auth = () => {
     }
   };
 
+  const handleStudentLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const validation = studentSchema.safeParse(studentLogin);
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("student-login", {
+        body: {
+          admissionNumber: studentLogin.admissionNumber.trim().toUpperCase(),
+          password: studentLogin.password,
+        },
+      });
+
+      if (error || !data?.access_token) {
+        toast.error("Invalid admission number or password");
+        return;
+      }
+
+      const { error: sessionError } = await supabase.auth.setSession({
+        access_token: data.access_token,
+        refresh_token: data.refresh_token,
+      });
+
+      if (sessionError) {
+        toast.error("Could not start your session. Please try again.");
+        return;
+      }
+
+      toast.success("Welcome back!");
+      navigate("/student");
+    } catch (error) {
+      toast.error("An unexpected error occurred");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-accent/5 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Staff & Student Portal</CardTitle>
           <CardDescription className="text-center">
-            Sign in with your credentials provided by the administrator
+            Sign in with the credentials provided by the administrator
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="login-email">Email</Label>
-              <Input
-                id="login-email"
-                type="email"
-                placeholder="you@example.com"
-                value={loginData.email}
-                onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="login-password">Password</Label>
-              <Input
-                id="login-password"
-                type="password"
-                value={loginData.password}
-                onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? "Signing in..." : "Sign In"}
-            </Button>
-          </form>
+          <Tabs defaultValue="staff" className="space-y-4">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="staff">Staff / Parent</TabsTrigger>
+              <TabsTrigger value="student">Student</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="staff">
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="login-email">Email</Label>
+                  <Input
+                    id="login-email"
+                    type="email"
+                    placeholder="you@example.com"
+                    value={loginData.email}
+                    onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="login-password">Password</Label>
+                  <Input
+                    id="login-password"
+                    type="password"
+                    value={loginData.password}
+                    onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Signing in..." : "Sign In"}
+                </Button>
+              </form>
+            </TabsContent>
+
+            <TabsContent value="student">
+              <form onSubmit={handleStudentLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="admission-number">Admission Number</Label>
+                  <Input
+                    id="admission-number"
+                    type="text"
+                    placeholder="ADM2026001"
+                    autoCapitalize="characters"
+                    value={studentLogin.admissionNumber}
+                    onChange={(e) => setStudentLogin({ ...studentLogin, admissionNumber: e.target.value.toUpperCase() })}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="student-password">Password</Label>
+                  <Input
+                    id="student-password"
+                    type="password"
+                    value={studentLogin.password}
+                    onChange={(e) => setStudentLogin({ ...studentLogin, password: e.target.value })}
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full" disabled={loading}>
+                  {loading ? "Signing in..." : "Sign In"}
+                </Button>
+              </form>
+            </TabsContent>
+          </Tabs>
         </CardContent>
         <CardFooter className="text-center text-sm text-muted-foreground">
           Contact the school administrator if you need access
