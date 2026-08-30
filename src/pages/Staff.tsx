@@ -35,13 +35,23 @@ const Staff = () => {
 
   const fetchTeachers = async () => {
     try {
-      const { data: teachersData, error: teachersError } = await supabase
-        .from("teachers")
-        .select("id, teacher_id, qualification, specialization, join_date, user_id");
+      const { data: directoryData, error: teachersError } = await supabase
+        .from("teacher_directory")
+        .select("teacher_id, staff_no, qualification, specialization, join_date, user_id");
 
       if (teachersError) throw teachersError;
 
+      const teachersData = (directoryData ?? []).map((d) => ({
+        id: d.teacher_id,
+        teacher_id: d.staff_no,
+        qualification: d.qualification,
+        specialization: d.specialization,
+        join_date: d.join_date,
+        user_id: d.user_id,
+      }));
+
       if (teachersData && teachersData.length > 0) {
+
         const userIds = teachersData.map((t) => t.user_id);
         const { data: profilesData, error: profilesError } = await supabase
           .from("profiles")
