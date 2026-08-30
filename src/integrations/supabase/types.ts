@@ -1109,6 +1109,41 @@ export type Database = {
         }
         Relationships: []
       }
+      teacher_directory: {
+        Row: {
+          join_date: string | null
+          qualification: string | null
+          specialization: string | null
+          staff_no: string
+          teacher_id: string
+          user_id: string
+        }
+        Insert: {
+          join_date?: string | null
+          qualification?: string | null
+          specialization?: string | null
+          staff_no: string
+          teacher_id: string
+          user_id: string
+        }
+        Update: {
+          join_date?: string | null
+          qualification?: string | null
+          specialization?: string | null
+          staff_no?: string
+          teacher_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teacher_directory_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: true
+            referencedRelation: "teachers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       teachers: {
         Row: {
           address: string | null
