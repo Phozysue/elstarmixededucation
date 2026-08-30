@@ -361,13 +361,6 @@ export type Database = {
             referencedRelation: "teachers"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "class_subjects_teacher_id_fkey"
-            columns: ["teacher_id"]
-            isOneToOne: false
-            referencedRelation: "teachers_directory"
-            referencedColumns: ["id"]
-          },
         ]
       }
       classes: {
@@ -410,13 +403,6 @@ export type Database = {
             columns: ["class_teacher_id"]
             isOneToOne: false
             referencedRelation: "teachers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "classes_class_teacher_id_fkey"
-            columns: ["class_teacher_id"]
-            isOneToOne: false
-            referencedRelation: "teachers_directory"
             referencedColumns: ["id"]
           },
         ]
@@ -1123,6 +1109,41 @@ export type Database = {
         }
         Relationships: []
       }
+      teacher_directory: {
+        Row: {
+          join_date: string | null
+          qualification: string | null
+          specialization: string | null
+          staff_no: string
+          teacher_id: string
+          user_id: string
+        }
+        Insert: {
+          join_date?: string | null
+          qualification?: string | null
+          specialization?: string | null
+          staff_no: string
+          teacher_id: string
+          user_id: string
+        }
+        Update: {
+          join_date?: string | null
+          qualification?: string | null
+          specialization?: string | null
+          staff_no?: string
+          teacher_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teacher_directory_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: true
+            referencedRelation: "teachers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       teachers: {
         Row: {
           address: string | null
@@ -1251,33 +1272,6 @@ export type Database = {
           name?: string | null
           title?: string | null
           updated_at?: string | null
-        }
-        Relationships: []
-      }
-      teachers_directory: {
-        Row: {
-          id: string | null
-          join_date: string | null
-          qualification: string | null
-          specialization: string | null
-          teacher_id: string | null
-          user_id: string | null
-        }
-        Insert: {
-          id?: string | null
-          join_date?: string | null
-          qualification?: string | null
-          specialization?: string | null
-          teacher_id?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          id?: string | null
-          join_date?: string | null
-          qualification?: string | null
-          specialization?: string | null
-          teacher_id?: string | null
-          user_id?: string | null
         }
         Relationships: []
       }
