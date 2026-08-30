@@ -361,6 +361,13 @@ export type Database = {
             referencedRelation: "teachers"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "class_subjects_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "teachers_directory"
+            referencedColumns: ["id"]
+          },
         ]
       }
       classes: {
@@ -403,6 +410,13 @@ export type Database = {
             columns: ["class_teacher_id"]
             isOneToOne: false
             referencedRelation: "teachers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "classes_class_teacher_id_fkey"
+            columns: ["class_teacher_id"]
+            isOneToOne: false
+            referencedRelation: "teachers_directory"
             referencedColumns: ["id"]
           },
         ]
@@ -1237,6 +1251,33 @@ export type Database = {
           name?: string | null
           title?: string | null
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      teachers_directory: {
+        Row: {
+          id: string | null
+          join_date: string | null
+          qualification: string | null
+          specialization: string | null
+          teacher_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: string | null
+          join_date?: string | null
+          qualification?: string | null
+          specialization?: string | null
+          teacher_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: string | null
+          join_date?: string | null
+          qualification?: string | null
+          specialization?: string | null
+          teacher_id?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
