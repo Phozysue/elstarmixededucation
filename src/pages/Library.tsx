@@ -352,7 +352,7 @@ const Library = () => {
       </Dialog>
 
       {/* In-app PDF Reader (no download) */}
-      <Dialog open={!!readerBook} onOpenChange={(open) => { if (!open) { setReaderBook(null); setReaderUrl(null); setIframeLoading(false); setRefreshAttempts(0); setRefreshExhausted(false); } }}>
+      <Dialog open={!!readerBook} onOpenChange={(open) => { if (!open) { setReaderBook(null); setReaderUrl((prev) => { revokeReaderUrl(prev); return null; }); setIframeLoading(false); setRefreshAttempts(0); setRefreshExhausted(false); } }}>
         <DialogContent className="max-w-5xl w-[95vw] h-[90vh] flex flex-col p-4">
           {readerBook && (
             <>
@@ -397,7 +397,7 @@ const Library = () => {
                 </p>
               ) : (
                 <p className="text-xs text-muted-foreground text-center">
-                  Reading only — downloading is not permitted. Link expires in 1 hour — click <span className="font-medium">Refresh</span> if it stops loading.
+                  Reading only — downloading is not permitted. If the book stops loading, click <span className="font-medium">Refresh</span>.
                 </p>
               )}
             </>
