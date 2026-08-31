@@ -42,7 +42,6 @@ const Library = () => {
   const [refreshAttempts, setRefreshAttempts] = useState(0);
   const [refreshExhausted, setRefreshExhausted] = useState(false);
 
-  const SIGNED_URL_TTL_SEC = 60 * 60; // 1h
   const MAX_REFRESH_ATTEMPTS = 1;
 
   const extractPdfPath = (url: string): string => {
@@ -51,13 +50,19 @@ const Library = () => {
     return idx >= 0 ? url.substring(idx + marker.length) : url;
   };
 
+  const revokeReaderUrl = (url: string | null) => {
+    if (url && url.startsWith("blob:")) URL.revokeObjectURL(url);
+  };
+
+  // Fetch the PDF through the authenticated client and serve it as a
+  // same-origin blob URL so Chrome never blocks the reader iframe.
   const generateSignedUrl = async (book: LibraryBook) => {
     const path = extractPdfPath(book.pdf_url!);
     const { data, error } = await supabase.storage
       .from("library-pdfs")
-      .createSignedUrl(path, SIGNED_URL_TTL_SEC);
-    if (error || !data?.signedUrl) throw error || new Error("Failed to generate link");
-    return data.signedUrl;
+      .download(path);
+    if (error || !data) throw error || new Error("Failed to load book");
+    return URL.createObjectURL(new Blob([data], { type: "application/pdf" }));
   };
 
   const handleOpenPdf = async (book: LibraryBook) => {
@@ -68,7 +73,7 @@ const Library = () => {
     setRefreshExhausted(false);
     try {
       const url = await generateSignedUrl(book);
-      setReaderUrl(url);
+      setReaderUrl((prev) => { revokeReaderUrl(prev); return url; });
       setReaderIssuedAt(Date.now());
       setIframeLoading(true);
       setReaderBook(book);
@@ -91,7 +96,7 @@ const Library = () => {
     setRefreshAttempts(nextAttempt);
     try {
       const url = await generateSignedUrl(readerBook);
-      setReaderUrl(url);
+      setReaderUrl((prev) => { revokeReaderUrl(prev); return url; });
       setReaderIssuedAt(Date.now());
       setIframeLoading(true);
     } catch (e: any) {
@@ -347,7 +352,7 @@ const Library = () => {
       </Dialog>
 
       {/* In-app PDF Reader (no download) */}
-      <Dialog open={!!readerBook} onOpenChange={(open) => { if (!open) { setReaderBook(null); setReaderUrl(null); setIframeLoading(false); setRefreshAttempts(0); setRefreshExhausted(false); } }}>
+      <Dialog open={!!readerBook} onOpenChange={(open) => { if (!open) { setReaderBook(null); setReaderUrl((prev) => { revokeReaderUrl(prev); return null; }); setIframeLoading(false); setRefreshAttempts(0); setRefreshExhausted(false); } }}>
         <DialogContent className="max-w-5xl w-[95vw] h-[90vh] flex flex-col p-4">
           {readerBook && (
             <>
@@ -392,7 +397,7 @@ const Library = () => {
                 </p>
               ) : (
                 <p className="text-xs text-muted-foreground text-center">
-                  Reading only — downloading is not permitted. Link expires in 1 hour — click <span className="font-medium">Refresh</span> if it stops loading.
+                  Reading only — downloading is not permitted. If the book stops loading, click <span className="font-medium">Refresh</span>.
                 </p>
               )}
             </>
