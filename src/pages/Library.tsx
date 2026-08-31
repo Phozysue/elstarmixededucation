@@ -73,7 +73,7 @@ const Library = () => {
     setRefreshExhausted(false);
     try {
       const url = await generateSignedUrl(book);
-      setReaderUrl(url);
+      setReaderUrl((prev) => { revokeReaderUrl(prev); return url; });
       setReaderIssuedAt(Date.now());
       setIframeLoading(true);
       setReaderBook(book);
@@ -96,7 +96,7 @@ const Library = () => {
     setRefreshAttempts(nextAttempt);
     try {
       const url = await generateSignedUrl(readerBook);
-      setReaderUrl(url);
+      setReaderUrl((prev) => { revokeReaderUrl(prev); return url; });
       setReaderIssuedAt(Date.now());
       setIframeLoading(true);
     } catch (e: any) {
