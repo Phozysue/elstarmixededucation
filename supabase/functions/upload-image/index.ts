@@ -36,6 +36,11 @@ const BUCKET_CONFIG: Record<string, {
     allowedMimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
     requiresAdmin: true,
   },
+  "book-covers": {
+    maxSizeBytes: 5 * 1024 * 1024, // 5MB
+    allowedMimeTypes: ["image/jpeg", "image/png", "image/gif", "image/webp"],
+    requiresAdmin: true,
+  },
   "library-pdfs": {
     maxSizeBytes: 50 * 1024 * 1024, // 50MB for PDFs
     allowedMimeTypes: ["application/pdf"],
