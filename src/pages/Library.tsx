@@ -42,7 +42,6 @@ const Library = () => {
   const [refreshAttempts, setRefreshAttempts] = useState(0);
   const [refreshExhausted, setRefreshExhausted] = useState(false);
 
-  const SIGNED_URL_TTL_SEC = 60 * 60; // 1h
   const MAX_REFRESH_ATTEMPTS = 1;
 
   const extractPdfPath = (url: string): string => {
@@ -51,13 +50,19 @@ const Library = () => {
     return idx >= 0 ? url.substring(idx + marker.length) : url;
   };
 
+  const revokeReaderUrl = (url: string | null) => {
+    if (url && url.startsWith("blob:")) URL.revokeObjectURL(url);
+  };
+
+  // Fetch the PDF through the authenticated client and serve it as a
+  // same-origin blob URL so Chrome never blocks the reader iframe.
   const generateSignedUrl = async (book: LibraryBook) => {
     const path = extractPdfPath(book.pdf_url!);
     const { data, error } = await supabase.storage
       .from("library-pdfs")
-      .createSignedUrl(path, SIGNED_URL_TTL_SEC);
-    if (error || !data?.signedUrl) throw error || new Error("Failed to generate link");
-    return data.signedUrl;
+      .download(path);
+    if (error || !data) throw error || new Error("Failed to load book");
+    return URL.createObjectURL(new Blob([data], { type: "application/pdf" }));
   };
 
   const handleOpenPdf = async (book: LibraryBook) => {
