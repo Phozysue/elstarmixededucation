@@ -128,6 +128,14 @@ const Library = () => {
     }
   };
 
+  // Fallback: some browsers don't reliably fire iframe onLoad for PDFs,
+  // so clear the loading overlay after a grace period.
+  useEffect(() => {
+    if (!iframeLoading) return;
+    const t = setTimeout(() => setIframeLoading(false), 8000);
+    return () => clearTimeout(t);
+  }, [iframeLoading, readerIssuedAt]);
+
   useEffect(() => {
     fetchBooks();
 
