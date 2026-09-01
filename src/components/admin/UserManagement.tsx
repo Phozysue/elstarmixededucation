@@ -17,6 +17,7 @@ interface UserProfile {
   id: string;
   full_name: string;
   email: string;
+  phone?: string | null;
   created_at: string;
 }
 
@@ -57,6 +58,8 @@ const UserManagement = () => {
   const [editUser, setEditUser] = useState<UserProfile | null>(null);
   const [editFullName, setEditFullName] = useState("");
   const [editEmail, setEditEmail] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editPassword, setEditPassword] = useState("");
   const [saving, setSaving] = useState(false);
 
   // Reset password state
@@ -148,7 +151,11 @@ const UserManagement = () => {
 
   const handleEditUser = async () => {
     if (!editUser || !editFullName || !editEmail) {
-      toast.error("Please fill in all fields");
+      toast.error("Please fill in name and email");
+      return;
+    }
+    if (editPassword && editPassword.length < 6) {
+      toast.error("Password must be at least 6 characters");
       return;
     }
 
@@ -160,6 +167,8 @@ const UserManagement = () => {
           userId: editUser.id,
           fullName: editFullName.trim(),
           email: editEmail.trim(),
+          phone: editPhone.trim(),
+          password: editPassword || undefined,
         },
       });
 
@@ -167,9 +176,10 @@ const UserManagement = () => {
       const result = response.data;
       if (result.error) throw new Error(result.error);
 
-      toast.success("User updated successfully");
+      toast.success(editPassword ? "User and password updated" : "User updated successfully");
       setIsEditDialogOpen(false);
       setEditUser(null);
+      setEditPassword("");
       fetchData();
     } catch (error: any) {
       toast.error("Failed to update user: " + error.message);
@@ -486,11 +496,11 @@ const UserManagement = () => {
       </CardHeader>
       <CardContent>
         {/* Edit User Dialog */}
-        <Dialog open={isEditDialogOpen} onOpenChange={(open) => { setIsEditDialogOpen(open); if (!open) setEditUser(null); }}>
+        <Dialog open={isEditDialogOpen} onOpenChange={(open) => { setIsEditDialogOpen(open); if (!open) { setEditUser(null); setEditPassword(""); } }}>
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>Edit User</DialogTitle>
-              <DialogDescription>Update user details.</DialogDescription>
+              <DialogDescription>Update name, email, phone and password.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-2">
               <div>
@@ -501,12 +511,21 @@ const UserManagement = () => {
                 <Label>Email *</Label>
                 <Input type="email" value={editEmail} onChange={(e) => setEditEmail(e.target.value)} />
               </div>
+              <div>
+                <Label>Phone</Label>
+                <Input value={editPhone} onChange={(e) => setEditPhone(e.target.value)} placeholder="Optional" />
+              </div>
+              <div>
+                <Label>New Password</Label>
+                <Input type="password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} placeholder="Leave blank to keep current password" />
+              </div>
               <Button onClick={handleEditUser} className="w-full" disabled={saving || !editFullName || !editEmail}>
                 {saving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </DialogContent>
         </Dialog>
+
 
         {/* Reset Password Dialog */}
         <Dialog open={isResetDialogOpen} onOpenChange={(open) => { setIsResetDialogOpen(open); if (!open) { setResetUser(null); setNewPassword(""); } }}>
@@ -622,6 +641,8 @@ const UserManagement = () => {
                             setEditUser(user);
                             setEditFullName(user.full_name);
                             setEditEmail(user.email);
+                            setEditPhone(user.phone ?? "");
+                            setEditPassword("");
                             setIsEditDialogOpen(true);
                           }}
                         >

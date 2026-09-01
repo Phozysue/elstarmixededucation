@@ -63,24 +63,35 @@ serve(async (req) => {
 
     switch (action) {
       case "update": {
-        const { fullName, email } = body;
+        const { fullName, email, phone, password } = body;
         const updates: any = {};
         if (email) updates.email = email.trim().toLowerCase();
         if (fullName) {
           updates.user_metadata = { full_name: fullName.trim() };
         }
+        if (password !== undefined && password !== null && password !== "") {
+          if (typeof password !== "string" || password.length < 6) {
+            return new Response(JSON.stringify({ error: "Password must be at least 6 characters" }), {
+              status: 400, headers: jsonHeaders,
+            });
+          }
+          updates.password = password;
+        }
 
-        const { error: authError } = await serviceClient.auth.admin.updateUserById(userId, updates);
-        if (authError) {
-          return new Response(JSON.stringify({ error: authError.message }), {
-            status: 400, headers: jsonHeaders,
-          });
+        if (Object.keys(updates).length > 0) {
+          const { error: authError } = await serviceClient.auth.admin.updateUserById(userId, updates);
+          if (authError) {
+            return new Response(JSON.stringify({ error: authError.message }), {
+              status: 400, headers: jsonHeaders,
+            });
+          }
         }
 
         // Also update the profiles table
         const profileUpdates: any = {};
         if (fullName) profileUpdates.full_name = fullName.trim();
         if (email) profileUpdates.email = email.trim().toLowerCase();
+        if (phone !== undefined) profileUpdates.phone = typeof phone === "string" && phone.trim() ? phone.trim() : null;
 
         if (Object.keys(profileUpdates).length > 0) {
           await serviceClient.from("profiles").update(profileUpdates).eq("id", userId);
