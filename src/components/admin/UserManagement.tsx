@@ -58,6 +58,8 @@ const UserManagement = () => {
   const [editUser, setEditUser] = useState<UserProfile | null>(null);
   const [editFullName, setEditFullName] = useState("");
   const [editEmail, setEditEmail] = useState("");
+  const [editPhone, setEditPhone] = useState("");
+  const [editPassword, setEditPassword] = useState("");
   const [saving, setSaving] = useState(false);
 
   // Reset password state
