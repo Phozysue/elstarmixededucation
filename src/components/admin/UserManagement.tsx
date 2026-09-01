@@ -641,6 +641,8 @@ const UserManagement = () => {
                             setEditUser(user);
                             setEditFullName(user.full_name);
                             setEditEmail(user.email);
+                            setEditPhone(user.phone ?? "");
+                            setEditPassword("");
                             setIsEditDialogOpen(true);
                           }}
                         >
