@@ -151,7 +151,11 @@ const UserManagement = () => {
 
   const handleEditUser = async () => {
     if (!editUser || !editFullName || !editEmail) {
-      toast.error("Please fill in all fields");
+      toast.error("Please fill in name and email");
+      return;
+    }
+    if (editPassword && editPassword.length < 6) {
+      toast.error("Password must be at least 6 characters");
       return;
     }
 
@@ -163,6 +167,8 @@ const UserManagement = () => {
           userId: editUser.id,
           fullName: editFullName.trim(),
           email: editEmail.trim(),
+          phone: editPhone.trim(),
+          password: editPassword || undefined,
         },
       });
 
@@ -170,9 +176,10 @@ const UserManagement = () => {
       const result = response.data;
       if (result.error) throw new Error(result.error);
 
-      toast.success("User updated successfully");
+      toast.success(editPassword ? "User and password updated" : "User updated successfully");
       setIsEditDialogOpen(false);
       setEditUser(null);
+      setEditPassword("");
       fetchData();
     } catch (error: any) {
       toast.error("Failed to update user: " + error.message);
