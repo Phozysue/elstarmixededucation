@@ -496,11 +496,11 @@ const UserManagement = () => {
       </CardHeader>
       <CardContent>
         {/* Edit User Dialog */}
-        <Dialog open={isEditDialogOpen} onOpenChange={(open) => { setIsEditDialogOpen(open); if (!open) setEditUser(null); }}>
+        <Dialog open={isEditDialogOpen} onOpenChange={(open) => { setIsEditDialogOpen(open); if (!open) { setEditUser(null); setEditPassword(""); } }}>
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>Edit User</DialogTitle>
-              <DialogDescription>Update user details.</DialogDescription>
+              <DialogDescription>Update name, email, phone and password.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-2">
               <div>
@@ -511,12 +511,21 @@ const UserManagement = () => {
                 <Label>Email *</Label>
                 <Input type="email" value={editEmail} onChange={(e) => setEditEmail(e.target.value)} />
               </div>
+              <div>
+                <Label>Phone</Label>
+                <Input value={editPhone} onChange={(e) => setEditPhone(e.target.value)} placeholder="Optional" />
+              </div>
+              <div>
+                <Label>New Password</Label>
+                <Input type="password" value={editPassword} onChange={(e) => setEditPassword(e.target.value)} placeholder="Leave blank to keep current password" />
+              </div>
               <Button onClick={handleEditUser} className="w-full" disabled={saving || !editFullName || !editEmail}>
                 {saving ? "Saving..." : "Save Changes"}
               </Button>
             </div>
           </DialogContent>
         </Dialog>
+
 
         {/* Reset Password Dialog */}
         <Dialog open={isResetDialogOpen} onOpenChange={(open) => { setIsResetDialogOpen(open); if (!open) { setResetUser(null); setNewPassword(""); } }}>
