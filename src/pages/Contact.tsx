@@ -14,6 +14,7 @@ const Contact = () => {
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
+    phone: "",
     subject: "",
     message: ""
   });
@@ -46,6 +47,7 @@ const Contact = () => {
         body: {
           name: result.data.name,
           email: result.data.email,
+          phone: result.data.phone,
           subject: result.data.subject,
           message: result.data.message,
           honeypot, // Include honeypot for bot detection
@@ -65,6 +67,7 @@ const Contact = () => {
       setFormData({
         name: "",
         email: "",
+        phone: "",
         subject: "",
         message: ""
       });
@@ -244,18 +247,33 @@ const Contact = () => {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="email">Email Address</Label>
-                      <Input 
-                        id="email" 
-                        name="email" 
-                        type="email" 
-                        placeholder="john@example.com" 
-                        value={formData.email} 
-                        onChange={handleChange} 
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="john@example.com"
+                        value={formData.email}
+                        onChange={handleChange}
                         maxLength={255}
                         className={errors.email ? "border-destructive" : ""}
-                        required 
+                        required
                       />
                       {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        name="phone"
+                        type="tel"
+                        placeholder="+254 700 000 000"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        maxLength={20}
+                        className={errors.phone ? "border-destructive" : ""}
+                        required
+                      />
+                      {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
                     </div>
                   </div>
                   <div className="space-y-2">

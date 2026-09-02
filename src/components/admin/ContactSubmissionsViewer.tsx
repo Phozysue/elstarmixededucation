@@ -80,6 +80,7 @@ const ContactSubmissionsViewer = () => {
                       <div className="font-semibold">{s.subject}</div>
                       <div className="text-sm text-muted-foreground">
                         From <span className="font-medium">{s.name}</span> &lt;{s.email}&gt;
+                        {s.phone && <> · {s.phone}</>}
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {format(new Date(s.created_at), "PPp")}
