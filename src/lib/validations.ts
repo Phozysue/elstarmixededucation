@@ -11,6 +11,11 @@ export const contactSchema = z.object({
     .trim()
     .email("Invalid email address")
     .max(255, "Email must be less than 255 characters"),
+  phone: z.string()
+    .trim()
+    .min(7, "Phone number must be at least 7 characters")
+    .max(20, "Phone number must be less than 20 characters")
+    .regex(/^[\d\s\-+()]+$/, "Invalid phone number format"),
   subject: z.string()
     .trim()
     .min(3, "Subject must be at least 3 characters")

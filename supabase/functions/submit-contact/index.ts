@@ -42,6 +42,10 @@ function validateSubject(subject: string): boolean {
   return subject.length >= 3 && subject.length <= 200;
 }
 
+function validatePhone(phone: string): boolean {
+  return phone.length >= 7 && phone.length <= 20 && /^[\d\s\-+()]+$/.test(phone);
+}
+
 function validateMessage(message: string): boolean {
   return message.length >= 10 && message.length <= 2000;
 }
@@ -84,7 +88,7 @@ serve(async (req) => {
 
     // Parse and validate request body
     const body = await req.json();
-    const { name, email, subject, message, honeypot } = body;
+    const { name, email, phone, subject, message, honeypot } = body;
 
     // Honeypot check - if filled, it's likely a bot
     if (honeypot) {
@@ -107,6 +111,10 @@ serve(async (req) => {
 
     if (!email || typeof email !== "string" || !validateEmail(email.trim())) {
       errors.push("Please provide a valid email address");
+    }
+
+    if (!phone || typeof phone !== "string" || !validatePhone(phone.trim())) {
+      errors.push("Please provide a valid phone number (7-20 characters)");
     }
 
     if (!subject || typeof subject !== "string" || !validateSubject(subject.trim())) {
@@ -136,6 +144,7 @@ serve(async (req) => {
     const { error: insertError } = await supabase.from("contact_submissions").insert({
       name: name.trim(),
       email: email.trim().toLowerCase(),
+      phone: phone.trim(),
       subject: subject.trim(),
       message: message.trim(),
     });
