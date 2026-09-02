@@ -113,6 +113,10 @@ serve(async (req) => {
       errors.push("Please provide a valid email address");
     }
 
+    if (!phone || typeof phone !== "string" || !validatePhone(phone.trim())) {
+      errors.push("Please provide a valid phone number (7-20 characters)");
+    }
+
     if (!subject || typeof subject !== "string" || !validateSubject(subject.trim())) {
       errors.push("Subject must be between 3 and 200 characters");
     }
@@ -140,6 +144,7 @@ serve(async (req) => {
     const { error: insertError } = await supabase.from("contact_submissions").insert({
       name: name.trim(),
       email: email.trim().toLowerCase(),
+      phone: phone.trim(),
       subject: subject.trim(),
       message: message.trim(),
     });
