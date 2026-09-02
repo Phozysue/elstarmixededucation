@@ -42,6 +42,10 @@ function validateSubject(subject: string): boolean {
   return subject.length >= 3 && subject.length <= 200;
 }
 
+function validatePhone(phone: string): boolean {
+  return phone.length >= 7 && phone.length <= 20 && /^[\d\s\-+()]+$/.test(phone);
+}
+
 function validateMessage(message: string): boolean {
   return message.length >= 10 && message.length <= 2000;
 }
@@ -84,7 +88,7 @@ serve(async (req) => {
 
     // Parse and validate request body
     const body = await req.json();
-    const { name, email, subject, message, honeypot } = body;
+    const { name, email, phone, subject, message, honeypot } = body;
 
     // Honeypot check - if filled, it's likely a bot
     if (honeypot) {
