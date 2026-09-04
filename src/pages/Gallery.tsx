@@ -42,11 +42,45 @@ const Gallery = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [mediaType, setMediaType] = useState<"image" | "video">("image");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isPortrait, setIsPortrait] = useState(
+    typeof window !== "undefined" ? window.innerHeight > window.innerWidth : false
+  );
+
+  // Track orientation changes so the player re-fits to the new viewport
+  useEffect(() => {
+    const update = () => setIsPortrait(window.innerHeight > window.innerWidth);
+    window.addEventListener("orientationchange", update);
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("orientationchange", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   useEffect(() => {
     fetchGallery();
     checkAdminRole();
   }, [user]);
+
+  // Prevent background scrolling while the media lightbox is open (mobile-safe)
+  useEffect(() => {
+    if (!selectedMedia) return;
+    const body = document.body;
+    const scrollY = window.scrollY;
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.overflow = "hidden";
+    return () => {
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.overflow = "";
+      window.scrollTo(0, scrollY);
+    };
+  }, [selectedMedia]);
 
   useEffect(() => {
     let filtered = galleryItems;
@@ -467,21 +501,23 @@ const Gallery = () => {
 
         {/* Lightbox Dialog */}
         <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
-          <DialogContent className="max-w-[95vw] sm:max-w-5xl">
+          <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-5xl max-h-[95dvh] overflow-y-auto p-3 sm:p-6">
             {selectedMedia && (
               <div className="space-y-4">
                 {selectedMedia.media_type === "video" ? (
                   <video
+                    key={`${selectedMedia.id}-${isPortrait}`}
                     src={selectedMedia.image_url}
-                    className="w-full max-h-[70vh] object-contain rounded-lg bg-black"
+                    className="w-full max-h-[70dvh] object-contain rounded-lg bg-black"
                     controls
                     autoPlay
+                    playsInline
                   />
                 ) : (
                   <img
                     src={selectedMedia.image_url}
                     alt={selectedMedia.title}
-                    className="w-full max-h-[70vh] object-contain rounded-lg"
+                    className="w-full max-h-[70dvh] object-contain rounded-lg"
                   />
                 )}
                 <div>
