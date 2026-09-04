@@ -487,21 +487,23 @@ const Gallery = () => {
 
         {/* Lightbox Dialog */}
         <Dialog open={!!selectedMedia} onOpenChange={() => setSelectedMedia(null)}>
-          <DialogContent className="max-w-[95vw] sm:max-w-5xl">
+          <DialogContent className="w-[95vw] max-w-[95vw] sm:max-w-5xl max-h-[95dvh] overflow-y-auto p-3 sm:p-6">
             {selectedMedia && (
               <div className="space-y-4">
                 {selectedMedia.media_type === "video" ? (
                   <video
+                    key={`${selectedMedia.id}-${isPortrait}`}
                     src={selectedMedia.image_url}
-                    className="w-full max-h-[70vh] object-contain rounded-lg bg-black"
+                    className="w-full max-h-[70dvh] object-contain rounded-lg bg-black"
                     controls
                     autoPlay
+                    playsInline
                   />
                 ) : (
                   <img
                     src={selectedMedia.image_url}
                     alt={selectedMedia.title}
-                    className="w-full max-h-[70vh] object-contain rounded-lg"
+                    className="w-full max-h-[70dvh] object-contain rounded-lg"
                   />
                 )}
                 <div>
