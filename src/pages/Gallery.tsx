@@ -42,6 +42,20 @@ const Gallery = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [mediaType, setMediaType] = useState<"image" | "video">("image");
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isPortrait, setIsPortrait] = useState(
+    typeof window !== "undefined" ? window.innerHeight > window.innerWidth : false
+  );
+
+  // Track orientation changes so the player re-fits to the new viewport
+  useEffect(() => {
+    const update = () => setIsPortrait(window.innerHeight > window.innerWidth);
+    window.addEventListener("orientationchange", update);
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("orientationchange", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
 
   useEffect(() => {
     fetchGallery();
