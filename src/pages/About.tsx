@@ -154,6 +154,69 @@ const About = () => {
             </p>
           </div>
         </div>
+
+        {/* Explore the school */}
+        <div className="mt-20">
+          <h2 className="text-3xl font-bold mb-8 text-foreground text-center">Explore Our School</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Link to="/academics" className="group">
+              <Card className="border-none shadow-lg h-full transition-shadow group-hover:shadow-xl">
+                <CardHeader>
+                  <div className="inline-flex p-3 rounded-full bg-primary/10 text-primary mb-4 w-fit">
+                    <BookOpen className="h-8 w-8" />
+                  </div>
+                  <CardTitle className="text-2xl">Courses</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    Discover the subjects and programmes we offer across primary, middle, and high school.
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-primary font-medium">
+                    View courses <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link to="/news-events" className="group">
+              <Card className="border-none shadow-lg h-full transition-shadow group-hover:shadow-xl">
+                <CardHeader>
+                  <div className="inline-flex p-3 rounded-full bg-primary/10 text-primary mb-4 w-fit">
+                    <Calendar className="h-8 w-8" />
+                  </div>
+                  <CardTitle className="text-2xl">Events</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    Stay up to date with upcoming school events, announcements, and activities.
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-primary font-medium">
+                    See events <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link to="/staff" className="group">
+              <Card className="border-none shadow-lg h-full transition-shadow group-hover:shadow-xl">
+                <CardHeader>
+                  <div className="inline-flex p-3 rounded-full bg-primary/10 text-primary mb-4 w-fit">
+                    <Users className="h-8 w-8" />
+                  </div>
+                  <CardTitle className="text-2xl">Teachers</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    Meet the dedicated educators who guide and support our students every day.
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-primary font-medium">
+                    Meet the team <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
