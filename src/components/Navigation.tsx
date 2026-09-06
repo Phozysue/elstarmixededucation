@@ -100,6 +100,9 @@ const Navigation = () => {
     path: "/staff",
     label: "Teachers"
   }, {
+    path: "/school",
+    label: "School"
+  }, {
     path: "/contact",
     label: "Contact"
   }];
