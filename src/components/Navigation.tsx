@@ -97,6 +97,9 @@ const Navigation = () => {
     path: "/news-events",
     label: "News & Events"
   }, {
+    path: "/staff",
+    label: "Teachers"
+  }, {
     path: "/contact",
     label: "Contact"
   }];
