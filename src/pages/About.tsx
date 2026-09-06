@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Target, Eye, Heart, User, BookOpen, Calendar, Users, ArrowRight } from "lucide-react";
+import { Target, Eye, Heart, User, BookOpen, Calendar, Users, MapPin, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 interface PrincipalInfo {
@@ -158,7 +158,7 @@ const About = () => {
         {/* Explore the school */}
         <div className="mt-20">
           <h2 className="text-3xl font-bold mb-8 text-foreground text-center">Explore Our School</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
             <Link to="/academics" className="group">
               <Card className="border-none shadow-lg h-full transition-shadow group-hover:shadow-xl">
                 <CardHeader>
@@ -211,6 +211,25 @@ const About = () => {
                   </p>
                   <span className="inline-flex items-center gap-1 text-primary font-medium">
                     Meet the team <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </CardContent>
+              </Card>
+            </Link>
+
+            <Link to="/school" className="group">
+              <Card className="border-none shadow-lg h-full transition-shadow group-hover:shadow-xl">
+                <CardHeader>
+                  <div className="inline-flex p-3 rounded-full bg-primary/10 text-primary mb-4 w-fit">
+                    <MapPin className="h-8 w-8" />
+                  </div>
+                  <CardTitle className="text-2xl">Visit Us</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-muted-foreground mb-4">
+                    View our address, office hours, and map to plan your visit to the school.
+                  </p>
+                  <span className="inline-flex items-center gap-1 text-primary font-medium">
+                    Plan your visit <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </CardContent>
               </Card>

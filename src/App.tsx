@@ -14,6 +14,7 @@ import Gallery from "./pages/Gallery";
 import Library from "./pages/Library";
 import NewsEvents from "./pages/NewsEvents";
 import Contact from "./pages/Contact";
+import School from "./pages/School";
 import Staff from "./pages/Staff";
 import Auth from "./pages/Auth";
 import ResetPassword from "./pages/ResetPassword";
@@ -63,6 +64,7 @@ const App = () => (
               <Route path="news-events" element={<NewsEvents />} />
               <Route path="staff" element={<Staff />} />
               <Route path="contact" element={<Contact />} />
+              <Route path="school" element={<School />} />
             </Route>
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
