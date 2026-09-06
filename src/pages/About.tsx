@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Target, Eye, Heart, User } from "lucide-react";
+import { Target, Eye, Heart, User, BookOpen, Calendar, Users, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 
 interface PrincipalInfo {
   id: string;
