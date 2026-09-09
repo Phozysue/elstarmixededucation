@@ -162,6 +162,10 @@ const AdminDashboard = () => {
             <Calendar className="h-4 w-4" />
             <span className="hidden sm:inline">Important Dates</span>
           </TabsTrigger>
+          <TabsTrigger value="stories" className="flex items-center gap-2">
+            <Star className="h-4 w-4" />
+            <span className="hidden sm:inline">Student Stories</span>
+          </TabsTrigger>
           <TabsTrigger value="messages" className="flex items-center gap-2">
             <Mail className="h-4 w-4" />
             <span className="hidden sm:inline">Messages</span>
