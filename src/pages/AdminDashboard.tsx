@@ -244,6 +244,10 @@ const AdminDashboard = () => {
           <ImportantDatesManagement />
         </TabsContent>
 
+        <TabsContent value="stories">
+          <TestimonialsManagement />
+        </TabsContent>
+
         <TabsContent value="messages">
           <ContactSubmissionsViewer />
         </TabsContent>
