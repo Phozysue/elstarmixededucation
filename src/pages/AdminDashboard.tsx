@@ -24,6 +24,7 @@ import ClassSubjectsManagement from "@/components/admin/ClassSubjectsManagement"
 import AuditLogsViewer from "@/components/admin/AuditLogsViewer";
 
 import ImportantDatesManagement from "@/components/admin/ImportantDatesManagement";
+import TestimonialsManagement from "@/components/admin/TestimonialsManagement";
 import ContactSubmissionsViewer from "@/components/admin/ContactSubmissionsViewer";
 import LoadingScreen from "@/components/LoadingScreen";
 
