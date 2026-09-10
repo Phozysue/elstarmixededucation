@@ -103,6 +103,9 @@ const Navigation = () => {
     path: "/school",
     label: "School"
   }, {
+    path: "/parent-portal",
+    label: "Parent Portal"
+  }, {
     path: "/contact",
     label: "Contact"
   }];

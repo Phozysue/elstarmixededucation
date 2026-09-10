@@ -1,0 +1,1 @@
+GRANT SELECT ON public.important_dates TO anon;

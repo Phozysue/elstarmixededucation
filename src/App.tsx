@@ -22,6 +22,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
 import ParentDashboard from "./pages/ParentDashboard";
+import ParentPortal from "./pages/ParentPortal";
 import PrincipalDashboard from "./pages/PrincipalDashboard";
 import BursarDashboard from "./pages/BursarDashboard";
 import ClassTeacherDashboard from "./pages/ClassTeacherDashboard";
@@ -65,6 +66,7 @@ const App = () => (
               <Route path="staff" element={<Staff />} />
               <Route path="contact" element={<Contact />} />
               <Route path="school" element={<School />} />
+              <Route path="parent-portal" element={<ParentPortal />} />
             </Route>
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
