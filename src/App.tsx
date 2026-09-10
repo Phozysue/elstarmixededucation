@@ -22,6 +22,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
 import ParentDashboard from "./pages/ParentDashboard";
+import ParentPortal from "./pages/ParentPortal";
 import PrincipalDashboard from "./pages/PrincipalDashboard";
 import BursarDashboard from "./pages/BursarDashboard";
 import ClassTeacherDashboard from "./pages/ClassTeacherDashboard";
