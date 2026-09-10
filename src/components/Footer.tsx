@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin, Facebook, Twitter, Instagram } from "lucide-react";
-import logoAsset from "@/assets/excellence-logo.png.asset.json";
+import logoAsset from "@/assets/school-logo.png.asset.json";
 const Footer = () => {
   return <footer className="bg-primary text-primary-foreground">
       <div className="container mx-auto px-4 py-12">
