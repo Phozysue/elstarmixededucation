@@ -68,7 +68,7 @@ const ParentPortal = () => {
         </p>
         <div className="flex flex-wrap gap-3 mt-6">
           <Button asChild>
-            <Link to="/admissions-form">
+            <Link to="/admissions/apply">
               <UserPlus className="h-4 w-4 mr-2" /> Register your child
             </Link>
           </Button>
